@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+backend/.env
+frontend/.env
+
+# Build and runtime artifacts
+dist/
+build/
+coverage/
+*.log
+
+# ML artifacts
+ai-model/model/*.pkl
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/settings.json
