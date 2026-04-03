@@ -1,4 +1,4 @@
-# SmartServe AI - Data-Driven Volunteer Coordination Platform
+# Volnix AI - Data-Driven Volunteer Coordination Platform
 
 Simple MVP stack:
 

@@ -21,22 +21,23 @@ const loadingSteps = [
   "Generating insights..."
 ];
 
-const stats = [
-  { label: "Needs Addressed", value: "120+" },
-  { label: "Volunteers Connected", value: "80+" },
-  { label: "Urgent Cases Resolved", value: "95%" }
-];
-
-const flowSteps = [
-  "NGO submits need",
-  "AI analyzes",
-  "Volunteer matched",
-  "Task completed"
-];
-
 function App() {
   const [page, setPage] = useState("home");
   const [statusMessage, setStatusMessage] = useState("");
+
+  function goToSection(sectionId) {
+    setPage("home");
+    setTimeout(() => {
+      if (sectionId === "home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 60);
+  }
 
   const [volunteerForm, setVolunteerForm] = useState({
     name: "",
@@ -77,16 +78,6 @@ function App() {
       location: assignResult.sourceLocation
     };
   }, [assignResult]);
-
-  function goHomeAndScroll(sectionId) {
-    setPage("home");
-    setTimeout(() => {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 60);
-  }
 
   function onVolunteerChange(event) {
     const { name, value } = event.target;
@@ -213,146 +204,127 @@ function App() {
   }
 
   return (
-    <div className="site-root">
-      <header className="navbar">
-        <button className="logo" type="button" onClick={() => setPage("home")}>SmartServe AI</button>
-        <nav className="nav-links">
-          <button type="button" onClick={() => goHomeAndScroll("home")}>Home</button>
-          <button type="button" onClick={() => goHomeAndScroll("features")}>Features</button>
-          <button type="button" onClick={() => goHomeAndScroll("how-it-works")}>How it Works</button>
-          <button type="button" onClick={() => goHomeAndScroll("contact")}>Contact</button>
-        </nav>
-        <button className="primary-btn" type="button" onClick={() => setPage("ngo")}>Get Started</button>
-      </header>
+    <div className={`site-root ${page === "home" || page === "features" ? "has-navbar" : ""}`}>
+      {page === "home" || page === "features" ? (
+        <header className="navbar">
+          <button className="logo" type="button" onClick={() => goToSection("home")}>Volnix AI</button>
+          <nav className="nav-links">
+            <button type="button" onClick={() => goToSection("home")}>Home</button>
+            <button type="button" onClick={() => goToSection("features")}>Features</button>
+            <button type="button" onClick={() => goToSection("how")}>How it Works</button>
+          </nav>
+        </header>
+      ) : null}
 
       {statusMessage ? <div className="status-banner">{statusMessage}</div> : null}
 
       {page === "home" ? (
         <main id="home" className="page home-page">
-          <section className="hero-section">
-            <div>
-              <p className="hero-pill">Google AI Powered Coordination</p>
-              <h1>Empowering NGOs with Intelligent Volunteer Coordination</h1>
+          <section className="hero-section hero-showcase">
+            <div className="hero-copy hero-center-copy">
+              <div className="hero-brand">Volnix AI</div>
+              <h1>Grow your impact</h1>
               <p>
-                Analyze needs, match volunteers, and create impact using Google AI.
+                Empower your NGO with intelligent volunteer coordination. Detect urgency, analyze needs, and assign the best fit—all in seconds.
               </p>
               <div className="hero-actions">
                 <button className="primary-btn" type="button" onClick={() => setPage("ngo")}>
-                  Go to NGO Dashboard
+                  NGO Panel
                 </button>
                 <button className="secondary-btn" type="button" onClick={() => setPage("volunteer")}>
                   Join as Volunteer
                 </button>
               </div>
             </div>
-            <div className="hero-card">
-              <h3>Realtime Coordination Engine</h3>
-              <p>AI urgency scoring + skill matching + action-ready volunteer contact.</p>
-            </div>
           </section>
 
-          <section id="features" className="section-card">
-            <div className="section-head">
-              <h2>Live AI Demo</h2>
-              <span className="wow-tag">WOW SECTION</span>
-            </div>
-            <form className="form-grid" onSubmit={runDemoAnalysis}>
-              <label className="full-row">
-                Enter a community need...
-                <textarea
-                  name="text"
-                  value={demoForm.text}
-                  onChange={onDemoChange}
-                  rows="3"
-                  placeholder="Need medical kits and food packets for families in relief camp"
-                  required
-                />
-              </label>
-              <label>
-                Required Skill
-                <select name="requiredSkill" value={demoForm.requiredSkill} onChange={onDemoChange}>
-                  {skillOptions.map((skill) => (
-                    <option key={skill} value={skill}>{skill}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Location
-                <select name="location" value={demoForm.location} onChange={onDemoChange}>
-                  {cityOptions.map((city) => (
-                    <option key={city} value={city}>{city}</option>
-                  ))}
-                </select>
-              </label>
-              <button className="primary-btn" type="submit" disabled={isAnalyzingDemo}>
-                {isAnalyzingDemo ? "Analyzing..." : "Analyze"}
-              </button>
-            </form>
+        </main>
+      ) : null}
 
-            {demoResult ? (
-              <div className="demo-output">
-                <div><span>Urgency:</span> <strong>{demoResult.urgency}</strong></div>
-                <div><span>Category:</span> <strong>{demoResult.category}</strong></div>
-                <p>{demoResult.summary}</p>
-              </div>
-            ) : null}
+      {page === "features" || page === "home" ? (
+        <main id="features" className="page features-page">
+          <section className="features-hero">
+            <h2>Volunteer coordination doesn't have to be difficult.
+              <br />We're here to help.</h2>
+            <p className="section-subtitle">Intelligent tools that take the complexity out of NGO operations.</p>
           </section>
 
-          <section className="stats-grid">
-            {stats.map((stat) => (
-              <article key={stat.label} className="stat-card">
-                <h3>{stat.value}</h3>
-                <p>{stat.label}</p>
-              </article>
-            ))}
-          </section>
-
-          <section id="how-it-works" className="section-card">
-            <h2>How It Works</h2>
-            <div className="steps-grid">
-              {flowSteps.map((step, index) => (
-                <article key={step} className="step-card">
-                  <span>Step {index + 1}</span>
-                  <h3>{step}</h3>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <section className="why-grid">
-            <article className="section-card">
-              <h2>Why SmartServe AI</h2>
-              <ul>
-                <li>Faster than manual coordination</li>
-                <li>AI-powered decisions</li>
-                <li>Real-world impact</li>
-              </ul>
+          <section className="features-problems">
+            <article className="problem-card">
+              <div className="card-icon">01</div>
+              <h3>Struggling with Manual Coordination?</h3>
+              <p>At Volnix AI, coordinating volunteers is automated. We detect urgency, match skills intelligently, and get your team deployed fast alongside expert insights.</p>
             </article>
-            <article className="section-card cta-card">
-              <h2>Ready to make a difference?</h2>
-              <div className="hero-actions">
-                <button className="primary-btn" type="button" onClick={() => setPage("ngo")}>NGO Dashboard</button>
-                <button className="secondary-btn" type="button" onClick={() => setPage("volunteer")}>Volunteer Registration</button>
-              </div>
+            <article className="problem-card">
+              <div className="card-icon">02</div>
+              <h3>Can't Find the Right Volunteer?</h3>
+              <p>Every NGO is different. That's why we use AI-powered multi-skill scoring to find matched volunteers—tailored for your community and evolving needs.</p>
+            </article>
+            <article className="problem-card">
+              <div className="card-icon">03</div>
+              <h3>Losing Time to Communication?</h3>
+              <p>We work with complete urgency analysis and instant contact options. Get real-time updates through intelligent matching and a dedicated coordination team.</p>
             </article>
           </section>
+
+        </main>
+      ) : null}
+
+      {page === "how" || page === "home" ? (
+        <main id="how" className="page features-page">
+          <section className="features-hero">
+            <h2>Intelligent workflow built for speed and impact.</h2>
+            <p className="section-subtitle">From submission to assignment in three simple steps.</p>
+          </section>
+
+          <section className="features-problems">
+            <article className="problem-card">
+              <div className="step-number">1</div>
+              <h3>Submit Your Need</h3>
+              <p>NGOs enter a description of the community need, specify the required skills, and select their location. Our system captures all essential details in seconds.</p>
+            </article>
+            <article className="problem-card">
+              <div className="step-number">2</div>
+              <h3>AI-Powered Analysis</h3>
+              <p>Gemini and our ML models analyze urgency levels, categorize the need, and generate actionable insights. Real-time processing ensures no time is wasted.</p>
+            </article>
+            <article className="problem-card">
+              <div className="step-number">3</div>
+              <h3>Perfect Volunteer Match</h3>
+              <p>Our system scores all available volunteers using multi-skill scoring and matches the strongest fit based on skills, location, and availability instantly.</p>
+            </article>
+          </section>
+
         </main>
       ) : null}
 
       {page === "volunteer" ? (
-        <main className="page flow-page">
-          <section className="section-card">
-            <div className="panel-top">
-              <h2>Volunteer Registration</h2>
-              <button className="ghost-btn" type="button" onClick={() => setPage("home")}>Back to Home</button>
+        <main className="page split-page">
+          {/* Left branding panel */}
+          <aside className="split-aside">
+            <button className="back-pill" type="button" onClick={() => setPage("home")}>Back to Home</button>
+            <div className="split-aside-body">
+              <div className="split-icon">V</div>
+              <h2>Join as a Volunteer</h2>
+              <p>Make a real difference. Get matched with NGOs that need your skills.</p>
+              <ul className="split-perks">
+                <li>Instant skill matching</li>
+                <li>Location-based deployment</li>
+                <li>Urgent need alerts</li>
+              </ul>
             </div>
+          </aside>
+
+          {/* Right form panel */}
+          <section className="split-form-panel">
+            <h3>Create Your Profile</h3>
             <form className="form-grid" onSubmit={submitVolunteer}>
               <label>
-                Name
-                <input name="name" value={volunteerForm.name} onChange={onVolunteerChange} required />
+                Full Name
+                <input name="name" value={volunteerForm.name} onChange={onVolunteerChange} placeholder="Your full name" required />
               </label>
               <label>
-                Skill
+                Primary Skill
                 <select name="skill" value={volunteerForm.skill} onChange={onVolunteerChange}>
                   {skillOptions.map((skill) => (
                     <option key={skill} value={skill}>{skill}</option>
@@ -369,14 +341,14 @@ function App() {
               </label>
               <label>
                 Phone
-                <input name="phone" value={volunteerForm.phone} onChange={onVolunteerChange} required />
+                <input name="phone" value={volunteerForm.phone} onChange={onVolunteerChange} placeholder="+91 XXXXX XXXXX" required />
               </label>
               <label className="full-row">
                 Email
-                <input type="email" name="email" value={volunteerForm.email} onChange={onVolunteerChange} required />
+                <input type="email" name="email" value={volunteerForm.email} onChange={onVolunteerChange} placeholder="you@example.com" required />
               </label>
-              <button className="primary-btn" type="submit" disabled={isLoadingVolunteer}>
-                {isLoadingVolunteer ? "Registering..." : "Register"}
+              <button className="primary-btn split-submit-btn" type="submit" disabled={isLoadingVolunteer}>
+                {isLoadingVolunteer ? "Registering..." : "Register as Volunteer"}
               </button>
             </form>
           </section>
@@ -384,12 +356,25 @@ function App() {
       ) : null}
 
       {page === "ngo" ? (
-        <main className="page flow-page">
-          <section className="section-card">
-            <div className="panel-top">
+        <main className="page split-page">
+          {/* Left branding panel */}
+          <aside className="split-aside split-aside--ngo">
+            <button className="back-pill" type="button" onClick={() => setPage("home")}>Back to Home</button>
+            <div className="split-aside-body">
+              <div className="split-icon">N</div>
               <h2>NGO Dashboard</h2>
-              <button className="ghost-btn" type="button" onClick={() => setPage("home")}>Back to Home</button>
+              <p>Submit a need and our AI will detect urgency and assign the best-fit volunteer instantly.</p>
+              <ul className="split-perks">
+                <li>Gemini AI urgency analysis</li>
+                <li>Skill-based volunteer matching</li>
+                <li>Actionable insights, instantly</li>
+              </ul>
             </div>
+          </aside>
+
+          {/* Right form panel */}
+          <section className="split-form-panel">
+            <h3>Submit a Community Need</h3>
             <form className="form-grid" onSubmit={analyzeAndAssign}>
               <label className="full-row">
                 Need Description
@@ -397,8 +382,8 @@ function App() {
                   name="text"
                   value={ngoForm.text}
                   onChange={onNgoChange}
-                  rows="4"
-                  placeholder="Describe the community need"
+                  rows="5"
+                  placeholder="e.g. Flood-affected area needs medical support for 200 families in Kolkata..."
                   required
                 />
               </label>
@@ -418,8 +403,8 @@ function App() {
                   ))}
                 </select>
               </label>
-              <button className="primary-btn" type="submit" disabled={isAssigning}>
-                {isAssigning ? "Processing..." : "Analyze & Assign"}
+              <button className="primary-btn split-submit-btn" type="submit" disabled={isAssigning}>
+                {isAssigning ? "Analyzing..." : "Analyze & Assign Volunteer"}
               </button>
             </form>
 
@@ -439,6 +424,13 @@ function App() {
 
       {page === "result" && assignResult ? (
         <main className="page flow-page">
+          <section className="section-card">
+            <div className="panel-top">
+              <h3>Assignment Result</h3>
+              <button className="ghost-btn" type="button" onClick={() => setPage("home")}>Back to Home</button>
+            </div>
+          </section>
+
           <section className="result-layout">
             <article className="section-card">
               <h3>Need Summary</h3>
@@ -501,14 +493,26 @@ function App() {
         </main>
       ) : null}
 
-      <footer id="contact" className="footer">
-        <p>SmartServe AI</p>
-        <div>
-          <button type="button" onClick={() => setPage("home")}>Home</button>
-          <button type="button" onClick={() => setPage("ngo")}>NGO Dashboard</button>
-          <button type="button" onClick={() => setPage("volunteer")}>Volunteer Registration</button>
+      <footer className="footer">
+        <div className="footer-top">
+          <h3>Volnix AI</h3>
+          <p className="footer-tagline">Smart volunteer coordination platform connecting communities with the right help.</p>
         </div>
-        <p>Built for Google Solution Challenge 2026</p>
+        
+        <div className="footer-links">
+          <span className="footer-links-label">Quick Links:</span>
+          <button type="button" onClick={() => goToSection("home")}>Home</button>
+          <span className="divider">|</span>
+          <button type="button" onClick={() => goToSection("features")}>Features</button>
+          <span className="divider">|</span>
+          <button type="button" onClick={() => goToSection("home")}>Contact</button>
+        </div>
+        
+        <div className="footer-credits">
+          <p>© 2026 Volnix AI. All rights reserved.</p>
+          <p>Built for Google Solution Challenge 2026.</p>
+          <p>Powered by Google AI (Gemini)</p>
+        </div>
       </footer>
     </div>
   );

@@ -1,19 +1,14 @@
 const volunteers = [
-  { id: 1, name: "Rahul Sharma", skills: ["Medical", "Rescue"], location: "Kolkata", phone: "9876543210", email: "rahul@gmail.com" },
-  { id: 2, name: "Priya Singh", skills: ["Teaching", "Logistics"], location: "Delhi", phone: "9876500012", email: "priya.singh@gmail.com" },
-  { id: 3, name: "Aman Verma", skills: ["General", "Food"], location: "Mumbai", phone: "9876500013", email: "aman.verma@gmail.com" },
-  { id: 4, name: "Sneha Das", skills: ["Medical", "Food"], location: "Chennai", phone: "9876500014", email: "sneha.das@gmail.com" },
-  { id: 5, name: "Arjun Mehta", skills: ["Teaching", "General"], location: "Pune", phone: "9876500015", email: "arjun.mehta@gmail.com" },
-  { id: 6, name: "Neha Gupta", skills: ["Logistics", "General"], location: "Hyderabad", phone: "9876500016", email: "neha.gupta@gmail.com" },
-  { id: 7, name: "Vikram Roy", skills: ["Medical", "Rescue"], location: "Bangalore", phone: "9876500017", email: "vikram.roy@gmail.com" },
-  { id: 8, name: "Kavita Nair", skills: ["Teaching", "Food"], location: "Kolkata", phone: "9876500018", email: "kavita.nair@gmail.com" },
-  { id: 9, name: "Rohan Patel", skills: ["General", "Logistics"], location: "Ahmedabad", phone: "9876500019", email: "rohan.patel@gmail.com" },
-  { id: 10, name: "Ananya Bose", skills: ["Medical", "General"], location: "Delhi", phone: "9876500020", email: "ananya.bose@gmail.com" },
-  { id: 11, name: "Sahil Khan", skills: ["Teaching", "Rescue"], location: "Mumbai", phone: "9876500021", email: "sahil.khan@gmail.com" },
-  { id: 12, name: "Meera Iyer", skills: ["Food", "General"], location: "Chennai", phone: "9876500022", email: "meera.iyer@gmail.com" },
-  { id: 13, name: "Deepak Joshi", skills: ["Medical", "Logistics"], location: "Pune", phone: "9876500023", email: "deepak.joshi@gmail.com" },
-  { id: 14, name: "Pooja Sen", skills: ["Teaching", "General"], location: "Hyderabad", phone: "9876500024", email: "pooja.sen@gmail.com" },
-  { id: 15, name: "Nitin Malhotra", skills: ["Rescue", "General"], location: "Bangalore", phone: "9876500025", email: "nitin.malhotra@gmail.com" }
+  { name: "Rahul Sharma", skill: "Medical", location: "Kolkata", phone: "9876543210", email: "rahul.sharma@gmail.com" },
+  { name: "Ananya Das", skill: "Teaching", location: "Kolkata", phone: "9123456780", email: "ananya.das@gmail.com" },
+  { name: "Amit Verma", skill: "Food", location: "Delhi", phone: "9012345678", email: "amit.verma@gmail.com" },
+  { name: "Neha Kapoor", skill: "Rescue", location: "Mumbai", phone: "9988776655", email: "neha.kapoor@gmail.com" },
+  { name: "Arjun Mehta", skill: "Logistics", location: "Mumbai", phone: "9090909090", email: "arjun.mehta@gmail.com" },
+  { name: "Priya Singh", skill: "General", location: "Lucknow", phone: "9345678901", email: "priya.singh@gmail.com" },
+  { name: "Rohit Gupta", skill: "Medical", location: "Delhi", phone: "9234567890", email: "rohit.gupta@gmail.com" },
+  { name: "Sneha Iyer", skill: "Teaching", location: "Chennai", phone: "9871234560", email: "sneha.iyer@gmail.com" },
+  { name: "Vikram Reddy", skill: "Food", location: "Hyderabad", phone: "9011122233", email: "vikram.reddy@gmail.com" },
+  { name: "Pooja Jain", skill: "Rescue", location: "Jaipur", phone: "9887766554", email: "pooja.jain@gmail.com" }
 ];
 
 function normalize(value) {

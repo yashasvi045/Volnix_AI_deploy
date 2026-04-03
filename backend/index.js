@@ -98,5 +98,5 @@ app.post("/assign", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`SmartServe AI backend running on http://localhost:${PORT}`);
+  console.log(`Volnix AI backend running on http://localhost:${PORT}`);
 });
