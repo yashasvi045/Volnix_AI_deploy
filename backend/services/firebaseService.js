@@ -9,14 +9,16 @@ function parseServiceAccountFromEnv() {
 
   if (serviceAccountPath) {
     const absolutePath = path.resolve(serviceAccountPath);
-    const fileContents = fs.readFileSync(absolutePath, "utf8");
-    const parsedFromFile = JSON.parse(fileContents);
+    if (fs.existsSync(absolutePath)) {
+      const fileContents = fs.readFileSync(absolutePath, "utf8");
+      const parsedFromFile = JSON.parse(fileContents);
 
-    if (typeof parsedFromFile.private_key === "string") {
-      parsedFromFile.private_key = parsedFromFile.private_key.replace(/\\n/g, "\n");
+      if (typeof parsedFromFile.private_key === "string") {
+        parsedFromFile.private_key = parsedFromFile.private_key.replace(/\\n/g, "\n");
+      }
+
+      return parsedFromFile;
     }
-
-    return parsedFromFile;
   }
 
   const rawJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
@@ -42,7 +44,9 @@ function getFirestore() {
   const serviceAccount = parseServiceAccountFromEnv();
 
   if (!serviceAccount) {
-    throw new Error("Firebase is not configured. Set FIREBASE_SERVICE_ACCOUNT_PATH or FIREBASE_SERVICE_ACCOUNT_JSON in backend/.env");
+    throw new Error(
+      "Firebase is not configured. Set FIREBASE_SERVICE_ACCOUNT_JSON in Vercel, or FIREBASE_SERVICE_ACCOUNT_PATH for local development."
+    );
   }
 
   if (!admin.apps.length) {

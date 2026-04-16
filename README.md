@@ -43,3 +43,5 @@ GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-2.5-flash
 FIREBASE_SERVICE_ACCOUNT_PATH=./service-account.json
 ```
+
+For Vercel deployment, set `FIREBASE_SERVICE_ACCOUNT_JSON` in the backend project settings instead of a file path. Paste the full service-account JSON as a single line, and keep `private_key` with escaped newlines (`\n`).
