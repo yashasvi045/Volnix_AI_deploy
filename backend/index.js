@@ -16,6 +16,14 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (_req, res) => {
+  res.json({
+    status: "ok",
+    service: "Volnix AI backend",
+    health: "/health"
+  });
+});
+
 app.get("/health", async (_req, res) => {
   try {
     const volunteers = await getAllVolunteers();
